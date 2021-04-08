@@ -36,6 +36,7 @@ add_library(ur_robot_driver_plugin
   SHARED
   src/dashboard_client_ros.cpp
   src/hardware_interface.cpp
+  src/robot_state_helper.cpp
 )
 target_link_libraries(
   ur_robot_driver_plugin

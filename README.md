@@ -110,8 +110,8 @@ The most relevant arguments are the following:
 
    **NOTE**: If controllers are not starting automatically, i.e., the robot state is not shown in rviz, you can start them manually:
    ```
-   ros2 control load_controller --state start joint_state_broadcaster
-   ros2 control load_controller --state start joint_trajectory_controller
+   ros2 control load_controller --set-state start joint_state_broadcaster
+   ros2 control load_controller --set-state start joint_trajectory_controller
    ```
 
    To check the controllers' state use `ros2 control list_controllers` command.

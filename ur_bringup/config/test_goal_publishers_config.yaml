@@ -18,6 +18,14 @@ publisher_scaled_joint_trajectory_controller:
       - wrist_2_joint
       - wrist_3_joint
 
+    check_starting_point: true
+    starting_point_limits:
+      shoulder_pan_joint: [-0.1,0.1]
+      shoulder_lift_joint: [-1.6,-1.5]
+      elbow_joint: [-0.1,0.1]
+      wrist_1_joint: [-0.1,0.1]
+      wrist_2_joint: [-0.1,0.1]
+      wrist_3_joint: [-0.1,0.1]
 
 publisher_joint_trajectory_controller:
   ros__parameters:
@@ -38,3 +46,12 @@ publisher_joint_trajectory_controller:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
+
+    check_starting_point: true
+    starting_point_limits:
+      shoulder_pan_joint: [-0.1,0.1]
+      shoulder_lift_joint: [-1.6,-1.5]
+      elbow_joint: [-0.1,0.1]
+      wrist_1_joint: [-0.1,0.1]
+      wrist_2_joint: [-0.1,0.1]
+      wrist_3_joint: [-0.1,0.1]

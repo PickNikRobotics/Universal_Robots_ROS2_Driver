@@ -162,3 +162,14 @@ Prepare the pre-commit formatting to run like this:
   ```
   pre-commit install`
   ```
+
+## CI setup
+
+There are three build stages checking current and future compatibility of the driver.
+
+1. Binary builds - against released packages (main and testing) in ROS distributions. Shows that direct local build is possible.
+
+1. Semi-binary builds - against released core ROS packages (main and testing), but the immediate dependencies are pulled from source.
+   Shows that local build with dependencies is possible and if fails there we can expect that after the next package sync we will not be able to build.
+
+1. Source build - also core ROS pacakges are build from source. It shows potential issues in the mid future.

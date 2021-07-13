@@ -2,20 +2,25 @@ name: Source Build
 on:
   push:
     branches:
-      - master
-      - develop
+      - main
   schedule:
     # Run every morning to detect flakiness and broken dependencies
     - cron: '43 1 * * *'
 
 jobs:
-  source:
-    name: source build
+  foxy_source:
+    name: foxy source build
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
     steps:
       - uses: ros-tooling/setup-ros@v0.2
+        with:
+          required-ros-distributions: foxy
+      - uses: actions/checkout@v1
+      - name: start ursim
+        run: |
+          .github/dockerursim/build_and_run_docker_ursim.sh
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
           target-ros2-distro: foxy
@@ -29,6 +34,72 @@ jobs:
             ur_robot_driver
           vcs-repo-file-url: |
             https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
+            https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/Universal_Robots_ROS2_Driver.repos
+          colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+      - uses: actions/upload-artifact@v1
+        with:
+          name: colcon-logs-${{ matrix.os }}
+          path: ros_ws/log
+
+  galactic_source:
+    name: galactic source build
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: ros-tooling/setup-ros@v0.2
+        with:
+          required-ros-distributions: galactic
+      - uses: actions/checkout@v1
+      - name: start ursim
+        run: |
+          .github/dockerursim/build_and_run_docker_ursim.sh
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          target-ros2-distro: galactic
+          # build all packages listed in the meta package
+          package-name:
+            ur_bringup
+            ur_controllers
+            ur_dashboard_msgs
+            ur_description
+            ur_moveit_config
+            ur_robot_driver
+          vcs-repo-file-url: |
+            https://raw.githubusercontent.com/ros2/ros2/galactic/ros2.repos
+            https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/Universal_Robots_ROS2_Driver.repos
+          colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+      - uses: actions/upload-artifact@v1
+        with:
+          name: colcon-logs-${{ matrix.os }}
+          path: ros_ws/log
+
+  rolling_source:
+    name: rolling source build
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: ros-tooling/setup-ros@v0.2
+        with:
+          required-ros-distributions: rolling
+      - uses: actions/checkout@v1
+      - name: start ursim
+        run: |
+          .github/dockerursim/build_and_run_docker_ursim.sh
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          target-ros2-distro: rolling
+          # build all packages listed in the meta package
+          package-name:
+            ur_bringup
+            ur_controllers
+            ur_dashboard_msgs
+            ur_description
+            ur_moveit_config
+            ur_robot_driver
+          vcs-repo-file-url: |
+            https://raw.githubusercontent.com/ros2/ros2/rolling/ros2.repos
             https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/Universal_Robots_ROS2_Driver.repos
           colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
       - uses: actions/upload-artifact@v1

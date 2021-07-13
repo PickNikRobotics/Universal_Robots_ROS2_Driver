@@ -1,13 +1,6 @@
 name: Coverage Build
 on:
   pull_request:
-  push:
-    branches:
-      - master
-      - develop
-  schedule:
-    # Run every morning to detect flakiness and broken dependencies
-    - cron: '58 8 * * *'
 
 jobs:
   coverage:
@@ -18,14 +11,14 @@ jobs:
     steps:
       - uses: ros-tooling/setup-ros@v0.2
         with:
-          required-ros-distributions: foxy
+          required-ros-distributions: rolling
       - uses: actions/checkout@v1
       - name: start ursim
         run: |
           .github/dockerursim/build_and_run_docker_ursim.sh
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
-          target-ros2-distro: foxy
+          target-ros2-distro: rolling
           # build all packages listed in the meta package
           package-name:
             ur_bringup
